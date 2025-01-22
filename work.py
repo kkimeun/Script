@@ -4,7 +4,7 @@ import os
 import csv
 import argparse
 import shutil
-import sys  # sys 모듈 추가
+import sys
 
 # Base path for EOS
 EOS_BASE = "/eos/cms/store/group/phys_generator/cvmfs/gridpacks/PdmV/"
@@ -59,15 +59,13 @@ def process_prepid(prepid):
 
 def extract_gridpack_path(fragment):
     """Extract gridpack directory path from fragment."""
-    # '/PdmV/' 이후부터 시작
     start = fragment.find("/PdmV/") + len("/PdmV/")
     end = fragment.find(".tar.xz")
-    path = fragment[start:end]  # 끝까지 추출
+    path = fragment[start:end]
 
-    # 마지막 '/'까지 포함하도록 설정
-    last_slash = path.rfind("/")  # 마지막 '/' 위치 찾기
+    last_slash = path.rfind("/")
     if last_slash != -1:
-        path = path[:last_slash + 1]  # 마지막 '/'까지 포함
+        path = path[:last_slash + 1]
 
     print(f"Extracted path: {path}")
     return path
