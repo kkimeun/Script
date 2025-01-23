@@ -14,7 +14,7 @@ def copy_files(source_dir, destination_dir):
     os.makedirs(destination_dir, exist_ok=True)
 
     for filename in os.listdir(source_dir):
-        if filename.startswith("TTto") and "Jets" in filename:
+        if filename.startswith("Zto2Nu-2Jets") and "PTNuNu" in filename:
             source_path = os.path.join(source_dir, filename)
             destination_path = os.path.join(destination_dir, filename)
 

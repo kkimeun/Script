@@ -7,9 +7,6 @@ import argparse
 BASE_DIR = "/eos/cms/store/group/phys_generator/cvmfs/gridpacks/PdmV/"
 
 def copy_and_rename_files(source_dir, destination_dir):
-    """
-    Copy files from source_dir to destination_dir with 'PTG-' replaced by 'Bin-PTG-' in their names.
-    """
     if not os.path.isdir(source_dir):
         print(f"Source directory does not exist: {source_dir}")
         return
@@ -17,8 +14,9 @@ def copy_and_rename_files(source_dir, destination_dir):
     os.makedirs(destination_dir, exist_ok=True)
 
     for filename in os.listdir(source_dir):
-        if filename.startswith("DYto2L-4Jets_MLL-10to50") and "madgraphMLM" in filename:
-            new_filename = filename.replace("_MLL", "_Bin-MLL")
+        if filename.startswith("Zto2Nu-2Jets") and "PTNuNu" in filename:
+            new_filename = filename.replace("2Jets_", "2Jets_Bin-")
+            new_filename = new_filename.replace("J_PTNuNu", "J-PTNuNu")
             source_path = os.path.join(source_dir, filename)
             destination_path = os.path.join(destination_dir, new_filename)
 

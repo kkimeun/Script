@@ -56,9 +56,9 @@ def clone_prepid(prepid) :
         # change the gridpack path in the fragment
         ############################################
         fragment = request['fragment']
-        fragment = fragment.replace('/PdmV/Run3Summer22/MadGraph5_aMCatNLO/W/','/PdmV/RunIII2024Summer24/MadGraph5_aMCatNLO/W/')
-        fragment = fragment.replace('_2J_', '_')
-        fragment = fragment.replace('-2Jets_','-2Jets_Bin-2J-')
+        fragment = fragment.replace('/PdmV/Run3Summer22/MadGraph5_aMCatNLO/Z/','/PdmV/RunIII2024Summer24/MadGraph5_aMCatNLO/Z/')
+        fragment = fragment.replace('2Jets_', '2Jets_Bin-')
+        fragment = fragment.replace('J_PTNuNu','J-PTNuNu')
         request['fragment'] = fragment
         ############################################
 
