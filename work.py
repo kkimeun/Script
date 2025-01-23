@@ -8,7 +8,6 @@ import sys
 
 # Base path for EOS
 EOS_BASE = "/eos/cms/store/group/phys_generator/cvmfs/gridpacks/PdmV/"
-event = "Z"
 
 # Import McM module
 sys.path.append('/afs/cern.ch/cms/PPD/PdmV/tools/McM/')
@@ -72,15 +71,21 @@ def extract_gridpack_path(fragment):
 
 
 def update_names_from_csv(name):
-    """Retrieve old and new names from CSV."""
-    old_name, new_name = None, None
+    """Retrieve old and new names with classification of events from CSV."""
+    old_name, new_name, event = None, None, None
     with open("filtered_D_E.csv", "r") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if name in row["old_name"]:
                 old_name = row["old_name"]
                 new_name = row["new_name"]
+                event = row["event"]
                 break
+
+    if old_name is None:
+        error_message = f"Error: Could not find matching entry for '{name}' in filtered_D_E.csv."
+        print (error_message)
+        sys.exit(1)
 
     if old_name and new_name:
         # Remove everything after '_TuneCP5_13p6TeV_'
@@ -89,8 +94,8 @@ def update_names_from_csv(name):
         if "_TuneCP5_13p6TeV_" in new_name:
             new_name = new_name.split("_TuneCP5_13p6TeV_")[0]
 
-    print(f"Updated old_name: {old_name}, new_name: {new_name}")
-    return old_name, new_name
+    print(f"Updated old_name: {old_name}, new_name: {new_name}, event: {event}")
+    return old_name, new_name, event
 
 def copy_and_rename_files(old_path, new_path, old_name, new_name):
     """Copy and rename files in EOS."""
@@ -186,7 +191,7 @@ def main():
         name, generators, fragment = process_prepid(prepid)
         generator_str = generators[0]
         path = extract_gridpack_path(fragment)
-        old_name, new_name = update_names_from_csv(name)
+        old_name, new_name, event = update_names_from_csv(name)
         old_path = os.path.join(EOS_BASE, path)
         new_path = os.path.join(EOS_BASE, "RunIII2024Summer24", generator_str, event)
         copy_and_rename_files(old_path, new_path, old_name, new_name)
